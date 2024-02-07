@@ -1,0 +1,384 @@
+:root {
+  --Marine-blue: hsl(213, 96%, 18%);
+  --Purplish-blue: hsl(243, 100%, 62%);
+  --Pastel-blue: hsl(228, 100%, 84%);
+  --Light-blue: hsl(206, 94%, 87%);
+  --Strawberry-red: hsl(354, 84%, 57%);
+  --Cool-gray: hsl(231, 11%, 63%);
+  --Light-gray: hsl(229, 24%, 87%);
+  --Magnolia: hsl(217, 100%, 97%);
+  --Alabaster: hsl(231, 100%, 99%);
+  --White: hsl(0, 0%, 100%);
+
+  /* text */
+}
+
+@import url('https://fonts.googleapis.com/css2?family=Ubuntu:wght@400;500;700&display=swap');
+
+* {
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box;
+}
+
+img {
+  max-width: 100%;
+}
+
+body {
+  font-family: 'Ubuntu', sans-serif;
+  background-color: var(--Magnolia);
+  color: var(--Cool-gray);
+  font-weight: 500;
+  line-height: 1.4;
+  position: relative;
+  min-height: 100vh;
+  padding-bottom: 50px;
+}
+
+.container {
+  width: 95%;
+  margin: 0 auto;
+  max-width: 1200px;
+}
+
+/* header */
+
+.header {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  padding: 20px 0px;
+}
+
+.header > .container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.header .logo {
+  display: flex;
+  align-items: center;
+  text-transform: uppercase;
+  font-weight: 700;
+  font-size: 1.25rem;
+  color: var(--Marine-blue);
+}
+
+.header .logo > span {
+  margin-right: 5px;
+}
+
+/* multi step progress bar */
+
+.multistep_progressbar {
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+  gap: 20px;
+  background-image: url('../assets/img/bg-sidebar-mobile.svg');
+  background-repeat: no-repeat;
+  background-size: cover;
+  height: 200px;
+}
+
+.progress_bar .bar {
+  margin-top: 60px;
+  width: 35px;
+  height: 35px;
+  border-radius: 50%;
+  border: 1.5px solid var(--White);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--White);
+  font-weight: 700;
+}
+
+.multistep_progressbar .progress_bar .bar.active {
+  background-color: var(--Light-blue);
+  border: none;
+  color: var(--Marine-blue);
+}
+
+.progress_bar_text {
+  display: none;
+}
+
+/* form */
+
+.form_container {
+  position: relative;
+  bottom: 70px;
+  background-color: var(--White);
+  padding: 30px 20px;
+  width: 85%;
+  margin: 0 auto;
+  border-radius: 10px;
+  box-shadow: 0px 17px 20px -10px rgba(212, 211, 211, 0.5);
+}
+
+.form_header h1 {
+  font-size: 1.6rem;
+  color: var(--Marine-blue);
+  font-weight: 700;
+}
+
+.form_header p {
+  margin: 10px 0px 17px 0px;
+  font-weight: 600;
+  font-size: 0.96rem;
+}
+
+label {
+  position: relative;
+  margin-bottom: 3px;
+  display: block;
+  color: var(--Marine-blue);
+  font-weight: 600;
+  font-size: 0.95rem;
+}
+
+label input {
+  display: block;
+  width: 100%;
+  border: 1px solid var(--Light-gray);
+  outline: none;
+  padding: 12px;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+input:focus,
+input:hover {
+  border: 1px solid var(--Purplish-blue);
+}
+
+input::placeholder {
+  font-weight: 600;
+  color: var(--Cool-gray);
+  font-size: 0.9rem;
+}
+
+label {
+  margin-top: 10px;
+}
+
+.error-msg {
+  position: absolute;
+  top: 0;
+  right: 0;
+  color: var(--Strawberry-red);
+  font-weight: 700;
+  display: none;
+}
+
+/* info container  */
+.info_container {
+  margin-bottom: 10px;
+  padding: 10px;
+  background-color: var(--White);
+  box-shadow: 0px 0px 3px rgba(0, 0, 0, 0.2);
+  border-radius: 5px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  color: var(--Marine-blue);
+}
+
+.info_container .info .name,
+.info_container .info .date {
+  font-weight: 600;
+}
+
+.info_container .info .date {
+  display: flex;
+  align-items: center;
+  font-size: 0.87rem;
+}
+
+.info_container .trash_icon {
+  cursor: pointer;
+}
+
+/* add_info_button  */
+.add_info_button {
+  display: block;
+  margin-top: 40px;
+  margin-left: auto;
+}
+/* btn container */
+
+.btn_container {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background-color: var(--White);
+  padding: 20px 0px;
+}
+
+.btn_container .container {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 85%;
+  margin: 0 auto;
+}
+
+.btn_container .container button.btn:last-child {
+  margin-left: auto;
+}
+
+.btn {
+  color: var(--White);
+  background-color: var(--Marine-blue);
+  border: none;
+  padding: 10px 20px;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+/* modal */
+
+.modal::backdrop {
+  background-image: linear-gradient(
+    45deg,
+    magenta,
+    rebeccapurple,
+    dodgerblue,
+    green
+  );
+  opacity: 0.75;
+}
+
+.modal_container {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 100;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: rgba(0, 0, 0, 0.5);
+}
+/* tablet view */
+
+@media (min-width: 700px) {
+  body {
+    padding: 0px 0px 100px 0px;
+  }
+
+  .multistep_form {
+    display: grid;
+    grid-template-columns: 1fr 2fr;
+    height: auto;
+    padding: 15px;
+    gap: 15px;
+    background-color: var(--White);
+    border-radius: 10px;
+    width: 95%;
+    max-width: 1000px;
+    margin: 50px auto 0px auto;
+  }
+
+  .btn_container,
+  .btn_container > .container,
+  .form_container {
+    margin: 0;
+    width: 100%;
+    padding: 0;
+  }
+
+  /* header */
+  .header {
+    position: static;
+    background-color: var(--Marine-blue);
+  }
+
+  .header .logo {
+    color: white;
+  }
+
+  .header > .container {
+    align-items: center;
+    justify-content: start;
+  }
+
+  /* progress bar */
+  /* continue checking the padding fro here genius */
+  .multistep_progressbar {
+    background-image: url('../assets/img/bg-sidebar-desktop.svg');
+    background-position: center;
+    flex-direction: column;
+    align-items: start;
+    justify-content: flex-start;
+    gap: 30px;
+    height: auto;
+    padding: clamp(30px, 4vw, 50px) 0px 0px clamp(20px, 3vw, 40px);
+  }
+
+  .progress_bar {
+    display: flex;
+    align-items: center;
+  }
+
+  .progress_bar .bar {
+    margin: 0px 15px 0px 0px;
+  }
+
+  .progress_bar_text {
+    display: block;
+    text-transform: uppercase;
+  }
+
+  .progress_bar_text .step {
+    color: var(--Light-gray);
+    font-weight: 500;
+    font-size: 0.8rem;
+  }
+
+  .progress_bar_text .progress_bar_title {
+    color: var(--White);
+    font-weight: 500;
+    font-size: 0.8rem;
+  }
+
+  /* form */
+  form {
+    padding: clamp(15px, 4vw, 50px) clamp(25px, 5vw, 70px) 15px
+      clamp(25px, 5vw, 70px);
+  }
+
+  .form_container {
+    position: static;
+    bottom: 0px;
+    box-shadow: none;
+    border-radius: 0px;
+    background-color: transparent;
+  }
+
+  /* buttons */
+  .btn_container {
+    position: static;
+    background-color: transparent;
+    padding-top: 50px;
+  }
+}
+
+/* small laptops */
+
+@media (min-width: 800px) {
+  .progress_bar_text .progress_bar_title,
+  .form_header p {
+    font-size: 1rem;
+  }
+
+  .progress_bar .bar {
+    margin-right: 18px;
+  }
+}
