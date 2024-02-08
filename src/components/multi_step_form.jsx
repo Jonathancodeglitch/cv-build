@@ -1,6 +1,7 @@
 import { BarStep, FormButtons } from './utility';
 import { PersonalInfoInputs } from './personal_details';
 import { EducationalInfo } from './educational';
+import { ExperienceInfo } from './experience';
 
 // this component is in charge of displaying the progress bar of the multistep form
 function ProgressBar() {
@@ -14,12 +15,11 @@ function ProgressBar() {
   );
 }
 
-
 function Form() {
   return (
     <form>
       <div className="form_container">
-        <EducationalInfo />
+        <ExperienceInfo />
       </div>
       <FormButtons />
     </form>

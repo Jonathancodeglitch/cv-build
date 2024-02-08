@@ -1,4 +1,6 @@
-import { useRef } from 'react';
+import { useRef, useEffect } from 'react';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faX } from '@fortawesome/free-solid-svg-icons';
 
 function BarStep({ step, title, active }) {
   return (
@@ -12,9 +14,9 @@ function BarStep({ step, title, active }) {
   );
 }
 
-function Button({ name, type = 'button' }) {
+function Button({ name, type = 'button', handleClick = null }) {
   return (
-    <button type={type} className="btn">
+    <button onClick={handleClick} type={type} className="btn">
       {name}
     </button>
   );
@@ -40,16 +42,26 @@ function FormButtons() {
   );
 }
 
-/* begin from here */
-function Modal({ children, buttonName }) {
+/* modal popup */
+function Modal({ children, title, handleClick }) {
   const myModal = useRef(null);
-  myModal.current.showModal();
+
+  useEffect(() => {
+    myModal.current.showModal();
+  });
+
+  const cancelButtonIcon = <FontAwesomeIcon icon={faX} />;
+
   return (
     <dialog ref={myModal} className="modal">
-      <div className="modal_content">
-        <button autoFocus>Close</button>
-        <p>This modal dialog has a groovy backdrop!</p>
+      <div className="modal_header">
+        <span className="title">{title}</span>
+        <button type="button" onClick={handleClick} className="cancel_btn">
+          {cancelButtonIcon}
+        </button>
       </div>
+      {children}
+      <Button handleClick={handleClick} name="Save" />
     </dialog>
   );
 }

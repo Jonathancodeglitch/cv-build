@@ -1,11 +1,7 @@
+import { useState } from 'react';
 import { FormHeader, Button, Modal } from './utility';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faTrash } from '@fortawesome/free-solid-svg-icons';
-
-/* when button is clicked 
-    display the modal
-    when the modal body/del button is clicked close the modal
-*/
 
 function EducationalInputs() {
   return (
@@ -36,8 +32,18 @@ function EducationalInputs() {
 
 /* this is responsible for displaying the educational background of the user */
 function EducationalInfo() {
-  const icon = <FontAwesomeIcon icon={faTrash} />;
+  const [modalStatus, setModalStatus] = useState(false);
 
+  function openModal() {
+    setModalStatus(true);
+  }
+
+  function closeModal() {
+    setModalStatus(false);
+  }
+
+  const icon = <FontAwesomeIcon icon={faTrash} />;
+  /* start by creating a reusable component for info content */
   return (
     <>
       <FormHeader
@@ -76,10 +82,15 @@ function EducationalInfo() {
           <span className="trash_icon">{icon}</span>
         </div>
 
-        <Button type={Button} name="+ Education" />
+        <Button type="button" name="+ Education" handleClick={openModal} />
       </div>
+
       {/* modal */}
-      <Modal />
+      {modalStatus && (
+        <Modal title="Add Education" handleClick={closeModal}>
+          <EducationalInputs />
+        </Modal>
+      )}
     </>
   );
 }
