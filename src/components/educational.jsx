@@ -1,7 +1,6 @@
 import { useState } from 'react';
-import { FormHeader, Button, Modal } from './utility';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faTrash } from '@fortawesome/free-solid-svg-icons';
+import { FormHeader, Button, Modal } from './Utility';
+import { InfoContainer } from './Utility';
 
 function EducationalInputs() {
   return (
@@ -42,50 +41,32 @@ function EducationalInfo() {
     setModalStatus(false);
   }
 
-  const icon = <FontAwesomeIcon icon={faTrash} />;
-  /* start by creating a reusable component for info content */
   return (
     <>
       <FormHeader
         title="Education"
         desc="Please provide your educational background."
       />
-      <div className="educational-info">
-        <div className="info_container">
-          <div className="info">
-            <span className="name">University of Benin</span>
-            <div className="date">
-              <span className="state-date">1st Jan 2019 -</span>
-              <span className="end-date">1st Jan 2022</span>
-            </div>
-          </div>
-          <span className="trash_icon">{icon}</span>
-        </div>
-        <div className="info_container">
-          <div className="info">
-            <span className="name">University of Benin</span>
-            <div className="date">
-              <span className="state-date">1st Jan 2019 -</span>
-              <span className="end-date">1st Jan 2022</span>
-            </div>
-          </div>
-          <span className="trash_icon">{icon}</span>
-        </div>
-        <div className="info_container">
-          <div className="info">
-            <span className="name">University of Benin</span>
-            <div className="date">
-              <span className="state-date">1st Jan 2019 -</span>
-              <span className="end-date">1st Jan 2022</span>
-            </div>
-          </div>
-          <span className="trash_icon">{icon}</span>
-        </div>
+      {/*educatonal background infomation */}
+      <InfoContainer
+        name="university of benin"
+        stateDate="1st Jan 2019 -"
+        endDate=" 1st Jan 2022"
+      />
+      <InfoContainer
+        name="university of benin"
+        stateDate="1st Jan 2019 -"
+        endDate=" 1st Jan 2022"
+      />
+      <InfoContainer
+        name="university of benin"
+        stateDate="1st Jan 2019 -"
+        endDate=" 1st Jan 2022"
+      />
 
-        <Button type="button" name="+ Education" handleClick={openModal} />
-      </div>
+      <Button type="button" name="+ Education" handleClick={openModal} />
 
-      {/* modal */}
+      {/* modalnpop up */}
       {modalStatus && (
         <Modal title="Add Education" handleClick={closeModal}>
           <EducationalInputs />

@@ -1,4 +1,4 @@
-import { FormHeader } from './utility';
+import { FormHeader } from './Utility';
 
 /* personal details */
 function PersonalInfoInputs() {

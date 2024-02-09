@@ -1,3 +1,5 @@
+@import url('https://fonts.googleapis.com/css2?family=Ubuntu:wght@400;500;700&display=swap');
+
 :root {
   --Marine-blue: hsl(213, 96%, 18%);
   --Purplish-blue: hsl(243, 100%, 62%);
@@ -12,8 +14,6 @@
 
   /* text */
 }
-
-@import url('https://fonts.googleapis.com/css2?family=Ubuntu:wght@400;500;700&display=swap');
 
 * {
   padding: 0;
@@ -141,7 +141,8 @@ label {
   font-size: 0.95rem;
 }
 
-label input {
+label input,
+label textarea {
   display: block;
   width: 100%;
   border: 1px solid var(--Light-gray);
@@ -152,11 +153,14 @@ label input {
 }
 
 input:focus,
-input:hover {
+input:hover,
+textarea:hover,
+textarea:focus {
   border: 1px solid var(--Purplish-blue);
 }
 
-input::placeholder {
+input::placeholder,
+textarea::placeholder {
   font-weight: 600;
   color: var(--Cool-gray);
   font-size: 0.9rem;
@@ -205,17 +209,11 @@ label {
 
 .info_container + .btn {
   display: block;
-  margin-top: 20px;
+  margin-top: 30px;
   margin-left: auto;
   /* Styles for the button */
 }
 
-/* add_info_button  */
-.add_info_button {
-  display: block;
-  margin-top: 40px;
-  margin-left: auto;
-}
 /* btn container */
 
 .btn_container {
@@ -260,7 +258,7 @@ label {
   left: 50%;
   transform: translate(-50%, -50%);
   padding: 30px 20px 20px 20px;
-  width: 100%;
+  width: 90%;
   max-width: 450px;
   border-radius: 10px;
 }
