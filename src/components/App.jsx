@@ -1,4 +1,4 @@
-import { Form, ProgressBar } from './multi_step_form';
+import { Form, ProgressBar } from './Multi_step_form';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faScrewdriverWrench } from '@fortawesome/free-solid-svg-icons';
 import { useState } from 'react';
@@ -10,11 +10,12 @@ import { useState } from 'react';
 1. a section to for the user to add (phone number , email , name )
 2. a section to add educational background (school name, course study and the date of study and exit)
 3.  a section to add practical experience (company name, position title, main responsibilities of your jobs, date from and until when you worked for that company)
-4. add a next/edit button for each section  and a submit button at the end of the form.
-5. diplay the user input on a cv template which should have edit and download btn when the edit btn is clicked it should take you to the form with the previous values
+4. add a summary section that sums up what the user has entered ,there should be an edit button for each section  and a comfirm button at the end of the form
+5. diplay the user input on a cv template which should have  download btn when the 
 6. if the user clicks edit start the form again with the previous value entered by the user
 7. when download is clicked the user should be able to download the template in pdf format.
 
+edit btn is clicked it should take you to the form with the previous values.
 end......
 */
 
@@ -33,10 +34,30 @@ function Header() {
 }
 
 function CvBuilder() {
+  const [step, setStep] = useState(1);
+
+  function incrementStep() {
+    /* step should not be greater than the number of steps */
+    if (step < 4) {
+      setStep(step + 1);
+    }
+  }
+
+  function decrementStep() {
+    /* step should not be lower than the number of steps */
+    if (step > 1) {
+      setStep(step - 1);
+    }
+  }
+
   return (
-    <div className="multistep_form ">
-      <ProgressBar />
-      <Form />
+    <div className="multistep_form">
+      <ProgressBar formCurrentStep={step} />
+      <Form
+        formStep={step}
+        incrementStep={incrementStep}
+        decrementStep={decrementStep}
+      />
     </div>
   );
 }

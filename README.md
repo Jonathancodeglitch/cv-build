@@ -45,3 +45,9 @@ The designs were created to the following widths:
 
 - Family: [Ubuntu](https://fonts.google.com/specimen/Ubuntu)
 - Weights: 400, 500, 700
+
+//todo
+validation for education
+//check if the user is summiting and empty value
+//format the date
+//make the delete button work

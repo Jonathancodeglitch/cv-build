@@ -6,27 +6,27 @@ function ExperienceInputs() {
   return (
     <>
       <label>
-        Company name
+        Company Name
         <span className="error-msg">This field is required</span>
-        <input type="text" placeholder="Enter the Name of Company" />
+        <input type="text" placeholder="Enter Company Name" />
       </label>
       <label>
-        Position Title
+        Job Title
         <span className="error-msg">This field is required</span>
-        <input type="text" placeholder="Enter Position Title" />
+        <input type="text" placeholder="enter Job Title" />
       </label>
       <label>
         Start Date
         <span className="error-msg">This field is required</span>
-        <input type="date" placeholder="Enter Start Date" />
+        <input type="date" />
       </label>
       <label>
         End Date
         <span className="error-msg">This field is required</span>
-        <input type="date" placeholder="Enter End Date" />
+        <input type="date" />
       </label>
       <label>
-        Location
+        Company Location
         <span className="error-msg">This field is required</span>
         <input type="text" placeholder="Enter Company Location" />
       </label>
@@ -38,7 +38,7 @@ function ExperienceInputs() {
   );
 }
 
-function ExperienceInfo() {
+function ExperienceInfo({ step }) {
   const [modalStatus, setModalStatus] = useState(false);
 
   function openModal() {
@@ -50,7 +50,7 @@ function ExperienceInfo() {
   }
 
   return (
-    <>
+    <div style={{ display: step == 3 ? 'block' : 'none' }}>
       <FormHeader
         title="Experience"
         desc="Please provide your work experience."
@@ -76,11 +76,11 @@ function ExperienceInfo() {
 
       {/* modal */}
       {modalStatus && (
-        <Modal title="Add Education" handleClick={closeModal}>
+        <Modal title="Add Experience" handleClick={closeModal}>
           <ExperienceInputs />
         </Modal>
       )}
-    </>
+    </div>
   );
 }
 

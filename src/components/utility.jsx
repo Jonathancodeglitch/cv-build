@@ -28,7 +28,7 @@ function InfoContainer({ name, stateDate, endDate }) {
       <div className="info">
         <span className="name">{name}</span>
         <div className="date">
-          <span className="state-date">{stateDate} -</span>
+          <span className="state-date">{stateDate}-</span>
           <span className="end-date">{endDate}</span>
         </div>
       </div>
@@ -38,25 +38,33 @@ function InfoContainer({ name, stateDate, endDate }) {
 }
 
 /* modal popup */
-function Modal({ children, title, handleClick }) {
+function Modal({
+  children,
+  title,
+  closeModal,
+  addEducationInputsToEducationArray,
+}) {
   const myModal = useRef(null);
+  const cancelButtonIcon = <FontAwesomeIcon icon={faX} />;
 
   useEffect(() => {
     myModal.current.showModal();
   });
 
-  const cancelButtonIcon = <FontAwesomeIcon icon={faX} />;
-
+  function saveUserInputs() {
+    addEducationInputsToEducationArray();
+    closeModal();
+  }
   return (
     <dialog ref={myModal} className="modal">
       <div className="modal_header">
         <span className="title">{title}</span>
-        <button type="button" onClick={handleClick} className="cancel_btn">
+        <button type="button" onClick={closeModal} className="cancel_btn">
           {cancelButtonIcon}
         </button>
       </div>
       {children}
-      <Button handleClick={handleClick} name="Save" />
+      <Button handleClick={saveUserInputs} name="Save" />
     </dialog>
   );
 }
