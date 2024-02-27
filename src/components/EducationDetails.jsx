@@ -1,8 +1,8 @@
 import { useState } from 'react';
-import { FormHeader, Button, Modal } from './Utility';
-import { InfoContainer } from './Utility';
+import { FormHeader, Button, Modal } from './utilities/Utility';
+import { InfoContainer } from './utilities/Utility';
 
-function EducationalInputs({ handleEducationInputChange, educationInputs }) {
+function EducationInputs({ handleEducationInputChange, educationInputs }) {
   return (
     <>
       <label>
@@ -58,13 +58,7 @@ function EducationalInputs({ handleEducationInputChange, educationInputs }) {
 }
 
 /* this is responsible for displaying the educational background of the user */
-function EducationalInfo({
-  step,
-  handleEducationInputChange,
-  addEducationInputsToEducationArray,
-  educationInputs,
-  educations,
-}) {
+export default function EducationDetails({ currentStep }) {
   const [modalStatus, setModalStatus] = useState(false);
 
   function openModal() {
@@ -75,44 +69,22 @@ function EducationalInfo({
     setModalStatus(false);
   }
 
-  /* continue from here genius */
   return (
-    <div style={{ display: step == 2 ? 'block' : 'none' }}>
+    <div style={{ display: currentStep == 2 ? 'block' : 'none' }}>
       <FormHeader
         title="Education"
         desc="Please provide your educational background."
       />
       {/*educatonal background infomation */}
-      {educations.map((education) => {
-        return (
-          <InfoContainer
-            key={education.id}
-            name={education.schoolName}
-            stateDate={education.startDate}
-            endDate={education.endDate}
-          />
-        );
-      })}
-
+      <InfoContainer name="uniben" stateDate="1/20/2002" endDate="1/20/2002" />
       <Button type="button" name="+ Education" handleClick={openModal} />
 
-      {/* modalnpop up */}
+      {/* modal pop up */}
       {modalStatus && (
-        <Modal
-          title="Add Education"
-          closeModal={closeModal}
-          addEducationInputsToEducationArray={
-            addEducationInputsToEducationArray
-          }
-        >
-          <EducationalInputs
-            handleEducationInputChange={handleEducationInputChange}
-            educationInputs={educationInputs}
-          />
+        <Modal title="Add Education" closeModal={closeModal}>
+          <EducationInputs />
         </Modal>
       )}
     </div>
   );
 }
-
-export { EducationalInfo };

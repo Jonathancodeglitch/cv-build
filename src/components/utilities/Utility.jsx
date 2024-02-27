@@ -20,6 +20,7 @@ function FormHeader({ title, desc }) {
   );
 }
 
+//change this name
 function InfoContainer({ name, stateDate, endDate }) {
   const icon = <FontAwesomeIcon icon={faTrash} />;
 
@@ -37,6 +38,35 @@ function InfoContainer({ name, stateDate, endDate }) {
   );
 }
 
+function Input({
+  title,
+  type,
+  handleInputChange,
+  value,
+  placeholder,
+  required,
+}) {
+  const inputAttributes = {
+    placeholder,
+    value,
+    type,
+    onClick: handleInputChange,
+  };
+
+  //check if input is required and add as attribute to the input
+  if (required) {
+    inputAttributes['required'] = 'required';
+  }
+
+  return (
+    <label>
+      {title}
+      <span className="error-msg">This field is required</span>
+      <input {...inputAttributes} />
+    </label>
+  );
+}
+
 /* modal popup */
 function Modal({
   children,
@@ -49,7 +79,7 @@ function Modal({
 
   useEffect(() => {
     myModal.current.showModal();
-  });
+  },[]);
 
   function saveUserInputs() {
     addEducationInputsToEducationArray();
@@ -68,4 +98,4 @@ function Modal({
     </dialog>
   );
 }
-export { FormHeader, Button, Modal, InfoContainer };
+export { FormHeader, Button, Modal, InfoContainer, Input };

@@ -1,6 +1,6 @@
 import { useState } from 'react';
-import { FormHeader, Button, Modal } from './Utility';
-import { InfoContainer } from './Utility';
+import { FormHeader, Button, Modal } from './utilities/Utility';
+import { InfoContainer } from './utilities/Utility';
 
 function ExperienceInputs() {
   return (
@@ -38,7 +38,7 @@ function ExperienceInputs() {
   );
 }
 
-function ExperienceInfo({ step }) {
+export default function ExperienceDetails({ currentStep }) {
   const [modalStatus, setModalStatus] = useState(false);
 
   function openModal() {
@@ -50,7 +50,7 @@ function ExperienceInfo({ step }) {
   }
 
   return (
-    <div style={{ display: step == 3 ? 'block' : 'none' }}>
+    <div style={{ display: currentStep == 3 ? 'block' : 'none' }}>
       <FormHeader
         title="Experience"
         desc="Please provide your work experience."
@@ -83,5 +83,3 @@ function ExperienceInfo({ step }) {
     </div>
   );
 }
-
-export { ExperienceInfo };

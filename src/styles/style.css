@@ -176,7 +176,6 @@ label {
   right: 0;
   color: var(--Strawberry-red);
   font-weight: 700;
-  display: none;
 }
 
 /* info container  */
@@ -399,7 +398,6 @@ label {
   }
 
   /* progress bar */
-  /* continue checking the padding fro here genius */
   .multistep_progressbar {
     background-image: url('../assets/img/bg-sidebar-desktop.svg');
     background-position: center;

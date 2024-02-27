@@ -1,8 +1,8 @@
-import { FormHeader, Button } from './Utility';
+import { FormHeader, Button } from './utilities/Utility';
 
-function Summary({ step, personalInfo, educations }) {
+function Summary({ currentStep }) {
   return (
-    <div style={{ display: step == 4 ? 'block' : 'none' }}>
+    <div style={{ display: currentStep == 4 ? 'block' : 'none' }}>
       <FormHeader
         title="Finishing Up"
         desc="Double-check everything looks OK before Confirming"
@@ -14,17 +14,15 @@ function Summary({ step, personalInfo, educations }) {
           <div className="personal_details">
             <div className="name">
               <span className="label">Name:</span>
-              {personalInfo.fullName !== '' ? personalInfo.fullName : 'NIL'}
+              Jonathan kendrick
             </div>
             <div className="number">
               <span className="label">Phone Number:</span>
-              {personalInfo.phoneNumber !== ''
-                ? personalInfo.phoneNumber
-                : 'NIL'}
+              09076110369
             </div>
             <div className="email">
               <span className="label"> Email: </span>
-              {personalInfo.email !== '' ? personalInfo.email : 'NIL'}
+              email@gmail.com
             </div>
           </div>
           <Button name="Edit" />
@@ -33,28 +31,24 @@ function Summary({ step, personalInfo, educations }) {
         <div className="education_section">
           <h4 className="section_header">Education</h4>
           <ol>
-            {educations.map((education) => {
-              return (
-                <li className="education" key={education.id}>
-                  <div className="date">
-                    <span className="label">Date Of Study/Exit: </span>
-                    {education.startDate}-{education.endDate}
-                  </div>
-                  <div className="school_name">
-                    <span className="label">Name Of Institution: </span>
-                    {education.schoolName}
-                  </div>
-                  <div className="degree">
-                    <span className="label">Degree: </span>
-                    {education.degree}
-                  </div>
-                  <div className="school_location">
-                    <span className="label">Location: </span>
-                    {education.location}
-                  </div>
-                </li>
-              );
-            })}
+            <li className="education">
+              <div className="date">
+                <span className="label">Date Of Study/Exit: </span>
+                1/2/300 - 2/3/400
+              </div>
+              <div className="school_name">
+                <span className="label">Name Of Institution: </span>
+                University of Benin
+              </div>
+              <div className="degree">
+                <span className="label">Degree: </span>
+                Bachealor In Education
+              </div>
+              <div className="school_location">
+                <span className="label">Location: </span>
+                Benin
+              </div>
+            </li>
           </ol>
 
           <Button name="Edit" />
