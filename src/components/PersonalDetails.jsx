@@ -1,5 +1,5 @@
 import { FormHeader } from './utilities/Utility';
-import { useState, forwardRef, useImperativeHandle, useRef } from 'react';
+import { useState, useRef, useEffect } from 'react';
 import checkIfInputIsEmpty from './utilities/ValidateEmptyInput';
 import validateEmail from './utilities/ValidateEmail';
 import validatePhoneNumber from './utilities/ValidatePhoneNumber';
@@ -9,19 +9,16 @@ import validatePhoneNumber from './utilities/ValidatePhoneNumber';
 // if not display an error to the respective input that was wrongly field
 // then start validating on inputChange when the user clicks the input
 // details correct >>>>> else move on
+/* 
 
-/* personal details */
-export default forwardRef(function PersonalDetails(
-  {
-    currentStep,
-    personalInputsDetails,
-    handleFullNameInputChange,
-    handleEmailInputChange,
-    handlePhoneNumberInputChange,
-    isFormNextButtonClicked,
-  },
-  ref
-) {
+ */
+
+export default function PersonalDetails({
+  currentStep,
+  personalInputsDetails,
+  handlePersonalDetailsInputChange,
+  isFormNextButtonClicked,
+}) {
   const [fullNameErrorMsg, setFullNameErrorMsg] = useState('');
   const [emailErrorMsg, setEmailErrorMsg] = useState('');
   const [phoneNumberErrorMsg, setPhoneNumberErrorMsg] = useState('');
@@ -30,47 +27,41 @@ export default forwardRef(function PersonalDetails(
   const phoneNumberInputRef = useRef(null);
 
   // validate the personal details inputs and display error
-  function ValidatePersonalDetailsInput() {
-    let isValid = true;
-    if (!checkIfInputIsEmpty(personalInputsDetails.fullName)) {
-      isValid = false;
-      setFullNameErrorMsg('This field is required');
-      fullNameInputRef.current.style.borderColor = 'var( --Strawberry-red)';
-    } else {
-      setFullNameErrorMsg('');
-      fullNameInputRef.current.style.borderColor = '';
+  useEffect(() => {
+    /*  check if form btn has been clicked so the input dont start
+     validating before the user interacts with the form */
+    if (isFormNextButtonClicked) {
+      //validate for empty value
+      if (!checkIfInputIsEmpty(personalInputsDetails.fullName)) {
+        setFullNameErrorMsg('This field is required');
+        fullNameInputRef.current.style.borderColor = 'var( --Strawberry-red)';
+      } else {
+        setFullNameErrorMsg('');
+        fullNameInputRef.current.style.borderColor = '';
+      }
+      //validate for wrong email format
+      if (!checkIfInputIsEmpty(personalInputsDetails.email)) {
+        setEmailErrorMsg('This field is required');
+        emailInputRef.current.style.borderColor = 'var( --Strawberry-red)';
+      } else if (!validateEmail(personalInputsDetails.email)) {
+        setEmailErrorMsg('Invalid Email Format');
+        emailInputRef.current.style.borderColor = 'var( --Strawberry-red)';
+      } else {
+        setEmailErrorMsg('');
+        emailInputRef.current.style.borderColor = '';
+      }
+      //validate for wrong email format
+      if (!validatePhoneNumber(personalInputsDetails.phoneNumber)) {
+        setPhoneNumberErrorMsg('Invalid PhoneNumber');
+        phoneNumberInputRef.current.style.borderColor =
+          'var( --Strawberry-red)';
+      } else {
+        setPhoneNumberErrorMsg('');
+        phoneNumberInputRef.current.style.borderColor = '';
+      }
     }
-    if (!checkIfInputIsEmpty(personalInputsDetails.email)) {
-      isValid = false;
-      setEmailErrorMsg('This field is required');
-      emailInputRef.current.style.borderColor = 'var( --Strawberry-red)';
-    } else if (!validateEmail(personalInputsDetails.email)) {
-      isValid = false;
-      setEmailErrorMsg('Invalid Email Format');
-      emailInputRef.current.style.borderColor = 'var( --Strawberry-red)';
-    } else {
-      setEmailErrorMsg('');
-      emailInputRef.current.style.borderColor = '';
-    }
-    if (!validatePhoneNumber(personalInputsDetails.phoneNumber)) {
-      isValid = false;
-      setPhoneNumberErrorMsg('Enter a valid PhoneNumber');
-      phoneNumberInputRef.current.style.borderColor = 'var( --Strawberry-red)';
-    } else {
-      setPhoneNumberErrorMsg('');
-      phoneNumberInputRef.current.style.borderColor = '';
-    }
-
-    return isValid;
-  }
-
-  /* 
-  expose the ValidatePersonalDetailsInput() function to the parent 
-  function so the nextButton can validate inputs on click */
-
-  useImperativeHandle(ref, () => ({
-    ValidatePersonalDetailsInput,
-  }));
+    //when the  (isFormNextButtonClicked, personalInputsDetails) changes validae the form
+  }, [isFormNextButtonClicked, personalInputsDetails]);
 
   return (
     <div style={{ display: currentStep == 1 ? 'block' : 'none' }}>
@@ -83,11 +74,12 @@ export default forwardRef(function PersonalDetails(
           Full Name
           <span className="error-msg">{fullNameErrorMsg}</span>
           <input
+            name="fullName"
             ref={fullNameInputRef}
             onChange={(e) => {
-              handleFullNameInputChange(e);
               //check if the next button has been clicked before you start validation on input change
-              isFormNextButtonClicked && ValidatePersonalDetailsInput();
+              //isFormNextButtonClicked && ValidatePersonalDetailsInput();
+              handlePersonalDetailsInputChange(e);
             }}
             value={personalInputsDetails.fullName}
             type="text"
@@ -98,10 +90,12 @@ export default forwardRef(function PersonalDetails(
           Email Address
           <span className="error-msg">{emailErrorMsg}</span>
           <input
+            name="email"
             ref={emailInputRef}
             onChange={(e) => {
-              handleEmailInputChange(e);
-              isFormNextButtonClicked && ValidatePersonalDetailsInput();
+              handlePersonalDetailsInputChange(e);
+
+              //isFormNextButtonClicked && ValidatePersonalDetailsInput();
             }}
             value={personalInputsDetails.email}
             type="email"
@@ -112,10 +106,11 @@ export default forwardRef(function PersonalDetails(
           Phone Number
           <span className="error-msg">{phoneNumberErrorMsg}</span>
           <input
+            name="phoneNumber"
             ref={phoneNumberInputRef}
             onChange={(e) => {
-              handlePhoneNumberInputChange(e);
-              isFormNextButtonClicked && ValidatePersonalDetailsInput();
+              handlePersonalDetailsInputChange(e);
+              //isFormNextButtonClicked && ValidatePersonalDetailsInput();
             }}
             value={personalInputsDetails.phoneNumber}
             type="tel"
@@ -125,4 +120,4 @@ export default forwardRef(function PersonalDetails(
       </div>
     </div>
   );
-});
+}

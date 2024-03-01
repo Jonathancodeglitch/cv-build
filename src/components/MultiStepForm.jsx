@@ -1,25 +1,18 @@
 import { Button } from './utilities/Utility.jsx';
 import { Summary } from './Summary.jsx';
-import { useState, useRef } from 'react';
+import { useState } from 'react';
 import EducationDetails from './EducationDetails.jsx';
 import PersonalDetails from './PersonalDetails.jsx';
 import ExperienceDetails from './ExperienceDetails.jsx';
-//import validatePersonalDetailInputs from './ValidatePersonalDetailIInputs.js';
+import ValidatePersonalDetailsInput from './validatePersonalDetailInput.js';
 
 export default function MultiStepForm({
   currentStep,
   incrementStep,
   decrementStep,
 }) {
-  const myRef = useRef();
-
-  const onClickFunction = () => {
-    return myRef.current.ValidatePersonalDetailsInput();
-  };
-
   //this state hold a boolean that tell us if the form has been clicked
   const [isFormNextButtonClicked, setIsFormNextButtonClicked] = useState(false);
-
   const [personalInputsDetails, setPersonalInputsDetails] = useState({
     fullName: '',
     email: '',
@@ -31,22 +24,14 @@ export default function MultiStepForm({
   }
 
   //update personal inputs
-  function handleFullNameInputChange(e) {
-    setPersonalInputsDetails({
-      ...personalInputsDetails,
-      fullName: e.target.value,
-    });
-  }
-  function handleEmailInputChange(e) {
-    setPersonalInputsDetails({
-      ...personalInputsDetails,
-      email: e.target.value,
-    });
-  }
-  function handlePhoneNumberInputChange(e) {
-    setPersonalInputsDetails({
-      ...personalInputsDetails,
-      phoneNumber: e.target.value,
+  function handlePersonalDetailsInputChange(e) {
+    //get targeted input name
+    let name = e.target.name;
+    setPersonalInputsDetails((prevPersonalInputsDetails) => {
+      return {
+        ...prevPersonalInputsDetails,
+        [name]: e.target.value,
+      };
     });
   }
 
@@ -54,10 +39,7 @@ export default function MultiStepForm({
     <form>
       <div className="form_container">
         <PersonalDetails
-          ref={myRef}
-          handleFullNameInputChange={handleFullNameInputChange}
-          handleEmailInputChange={handleEmailInputChange}
-          handlePhoneNumberInputChange={handlePhoneNumberInputChange}
+          handlePersonalDetailsInputChange={handlePersonalDetailsInputChange}
           personalInputsDetails={personalInputsDetails}
           currentStep={currentStep}
           isFormNextButtonClicked={isFormNextButtonClicked}
@@ -72,7 +54,6 @@ export default function MultiStepForm({
         currentStep={currentStep}
         personalInputsDetails={personalInputsDetails}
         handleChangeForFormButtonClicked={handleChangeForFormButtonClicked}
-        onClickFunction={onClickFunction}
       />
     </form>
   );
@@ -84,12 +65,13 @@ function FormButtons({
   decrementStep,
   currentStep,
   handleChangeForFormButtonClicked,
-  onClickFunction,
+  personalInputsDetails,
 }) {
   function getNextFormSection() {
     handleChangeForFormButtonClicked();
+
     //before going to the next section check if the details entered in the personal section is valid
-    if (onClickFunction()) {
+    if (ValidatePersonalDetailsInput(personalInputsDetails)) {
       incrementStep();
     }
   }
