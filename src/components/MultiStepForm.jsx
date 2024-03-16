@@ -1,23 +1,23 @@
-import { Button } from './utilities/Utility.jsx';
 import { Summary } from './Summary.jsx';
 import { useState } from 'react';
 import EducationDetails from './EducationDetails.jsx';
 import PersonalDetails from './PersonalDetails.jsx';
 import ExperienceDetails from './ExperienceDetails.jsx';
-import ValidatePersonalDetailsInput from './validatePersonalDetailInput.js';
+import FormButtons from './FormButton.jsx';
 
 export default function MultiStepForm({
   currentStep,
   incrementStep,
   decrementStep,
 }) {
-  //this state hold a boolean that tell us if the form has been clicked
-  const [isFormNextButtonClicked, setIsFormNextButtonClicked] = useState(false);
   const [personalInputsDetails, setPersonalInputsDetails] = useState({
     fullName: '',
     email: '',
     phoneNumber: '',
   });
+
+  //this state hold a boolean that tell us if the form has been clicked
+  const [isFormNextButtonClicked, setIsFormNextButtonClicked] = useState(false);
 
   function handleChangeForFormButtonClicked() {
     setIsFormNextButtonClicked(true);
@@ -56,41 +56,5 @@ export default function MultiStepForm({
         handleChangeForFormButtonClicked={handleChangeForFormButtonClicked}
       />
     </form>
-  );
-}
-
-/* the form buttons that next the form setion and also show the previous form */
-function FormButtons({
-  incrementStep,
-  decrementStep,
-  currentStep,
-  handleChangeForFormButtonClicked,
-  personalInputsDetails,
-}) {
-  function getNextFormSection() {
-    handleChangeForFormButtonClicked();
-
-    //before going to the next section check if the details entered in the personal section is valid
-    if (ValidatePersonalDetailsInput(personalInputsDetails)) {
-      incrementStep();
-    }
-  }
-  function getPreviousFormSection() {
-    decrementStep();
-  }
-
-  return (
-    <div className="btn_container">
-      <div className="container">
-        {/* only show previous button  when they are previous section to be shown */}
-        {currentStep > 1 && (
-          <Button name="previous" handleClick={getPreviousFormSection} />
-        )}
-        <Button
-          name={currentStep == 4 ? 'Comfirm' : 'Next'}
-          handleClick={getNextFormSection}
-        />
-      </div>
-    </div>
   );
 }

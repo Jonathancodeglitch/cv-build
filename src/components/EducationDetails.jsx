@@ -2,6 +2,17 @@ import { useState } from 'react';
 import { FormHeader, Button, Modal } from './utilities/Utility';
 import { InfoContainer } from './utilities/Utility';
 
+// education section form
+// when user clicks on the add education button a modal form pops up
+// when the user enter details and submit
+// get user detail
+// validate the detail are valid
+// if the details are valid display the details in the education section
+// send details to the summary section
+// else display the appropriate error message (turn on error message when the user start typing)
+// delete details from section
+// edit current details
+
 function EducationInputs({ handleEducationInputChange, educationInputs }) {
   return (
     <>

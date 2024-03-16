@@ -4,15 +4,6 @@ import checkIfInputIsEmpty from './utilities/ValidateEmptyInput';
 import validateEmail from './utilities/ValidateEmail';
 import validatePhoneNumber from './utilities/ValidatePhoneNumber';
 
-//when next button is clicked
-// check if the correct values was entered
-// if not display an error to the respective input that was wrongly field
-// then start validating on inputChange when the user clicks the input
-// details correct >>>>> else move on
-/* 
-
- */
-
 export default function PersonalDetails({
   currentStep,
   personalInputsDetails,
@@ -77,8 +68,6 @@ export default function PersonalDetails({
             name="fullName"
             ref={fullNameInputRef}
             onChange={(e) => {
-              //check if the next button has been clicked before you start validation on input change
-              //isFormNextButtonClicked && ValidatePersonalDetailsInput();
               handlePersonalDetailsInputChange(e);
             }}
             value={personalInputsDetails.fullName}
@@ -94,8 +83,6 @@ export default function PersonalDetails({
             ref={emailInputRef}
             onChange={(e) => {
               handlePersonalDetailsInputChange(e);
-
-              //isFormNextButtonClicked && ValidatePersonalDetailsInput();
             }}
             value={personalInputsDetails.email}
             type="email"
@@ -110,7 +97,6 @@ export default function PersonalDetails({
             ref={phoneNumberInputRef}
             onChange={(e) => {
               handlePersonalDetailsInputChange(e);
-              //isFormNextButtonClicked && ValidatePersonalDetailsInput();
             }}
             value={personalInputsDetails.phoneNumber}
             type="tel"
