@@ -5,7 +5,7 @@ import { useState } from 'react';
 
 
 export default function CvBuilder() {
-  const [currentStep, setCurrentStep] = useState(1);
+  const [currentStep, setCurrentStep] = useState(2);
 
   function incrementStep() {
     const noOfAvaliableSteps = 4;

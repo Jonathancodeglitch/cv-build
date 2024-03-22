@@ -317,6 +317,7 @@ label {
 
 .modal::backdrop {
   background-color: rgba(0, 0, 0, 0.5);
+ cursor: pointer;
 }
 
 .modal {
@@ -436,7 +437,7 @@ label {
   }
 
   /* form */
-  form {
+  .main_form {
     padding: clamp(15px, 4vw, 50px) clamp(25px, 5vw, 70px) 15px
       clamp(25px, 5vw, 70px);
   }

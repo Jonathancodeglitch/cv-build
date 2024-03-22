@@ -1,65 +1,65 @@
 import { useState } from 'react';
-import { FormHeader, Button, Modal } from './utilities/Utility';
-import { InfoContainer } from './utilities/Utility';
+import { FormHeader, Button, InfoContainer } from './utilities/Utility';
+import Modal from './utilities/modal';
 
 // education section form
-// when user clicks on the add education button a modal form pops up
+// when user clicks on the add education button show modal form
 // when the user enter details and submit
 // get user detail
 // validate the detail are valid
 // if the details are valid display the details in the education section
 // send details to the summary section
 // else display the appropriate error message (turn on error message when the user start typing)
-// delete details from section
-// edit current details
+// user should be able to delete details from section
+// user should be able to edit  details
 
-function EducationInputs({ handleEducationInputChange, educationInputs }) {
+function EducationInputs({ handleEducationInputDetailChange }) {
   return (
     <>
       <label>
         Institution Name
-        <span className="error-msg">This field is required</span>
+        <span className="error-msg">required</span>
         <input
-          onChange={(e) => handleEducationInputChange(e, 'schoolName')}
-          value={educationInputs.schoolName}
+          onChange={handleEducationInputDetailChange}
+          name="institutionName"
           type="text"
           placeholder="University Of Benin"
         />
       </label>
       <label>
         Field Of Study
-        <span className="error-msg">This field is required</span>
+        <span className="error-msg">required</span>
         <input
-          onChange={(e) => handleEducationInputChange(e, 'degree')}
-          value={educationInputs.degree}
+          onChange={handleEducationInputDetailChange}
+          name="fieldOfStudy"
           type="text"
           placeholder="e.g Computer science"
         />
       </label>
       <label>
         Start Date
-        <span className="error-msg">This field is required</span>
+        <span className="error-msg">required</span>
         <input
-          onChange={(e) => handleEducationInputChange(e, 'startDate')}
-          value={educationInputs.startDate}
+          name="startDate"
           type="date"
+          onChange={handleEducationInputDetailChange}
         />
       </label>
       <label>
         End Date
-        <span className="error-msg">This field is required</span>
+        <span className="error-msg">required</span>
         <input
-          onChange={(e) => handleEducationInputChange(e, 'endDate')}
-          value={educationInputs.endDate}
+          name="endDate"
           type="date"
+          onChange={handleEducationInputDetailChange}
         />
       </label>
       <label>
         School Location
-        <span className="error-msg">This field is required</span>
+        <span className="error-msg">required</span>
         <input
-          onChange={(e) => handleEducationInputChange(e, 'location')}
-          value={educationInputs.location}
+          name="schoolLocation"
+          onChange={handleEducationInputDetailChange}
           type="text"
           placeholder="e.g Benin City, Edo State Nigeria"
         />
@@ -68,17 +68,32 @@ function EducationInputs({ handleEducationInputChange, educationInputs }) {
   );
 }
 
+
+// validate the details to make sure dey are correct. if details are not correct prompt user
+//onClick
+// get the user details
+// if the value entered is legit ?ignore
+// else display error for that particuler image that is wrong.
+
 /* this is responsible for displaying the educational background of the user */
-export default function EducationDetails({ currentStep }) {
+export default function EducationDetails({
+  currentStep,
+  handleEducationInputDetailChange,
+  addEducationInputDetailToStorage,
+  educationDetails,
+  resetForm,
+}) {
   const [modalStatus, setModalStatus] = useState(false);
 
   function openModal() {
     setModalStatus(true);
   }
 
-  function closeModal() {
+  function changeModalStatus() {
     setModalStatus(false);
   }
+
+  function validateInputs() {}
 
   return (
     <div style={{ display: currentStep == 2 ? 'block' : 'none' }}>
@@ -87,15 +102,31 @@ export default function EducationDetails({ currentStep }) {
         desc="Please provide your educational background."
       />
       {/*educatonal background infomation */}
-      <InfoContainer name="uniben" stateDate="1/20/2002" endDate="1/20/2002" />
+      {educationDetails.map((educationDetail) => {
+        return (
+          <InfoContainer
+            key={educationDetail.id}
+            name={educationDetail.institutionName}
+            stateDate={educationDetail.startDate}
+            endDate={educationDetail.endDate}
+          />
+        );
+      })}
+
       <Button type="button" name="+ Education" handleClick={openModal} />
 
-      {/* modal pop up */}
-      {modalStatus && (
-        <Modal title="Add Education" closeModal={closeModal}>
-          <EducationInputs />
-        </Modal>
-      )}
+      {/* education modal form pop up*/}
+      <Modal
+        title="Add Education"
+        modalStatus={modalStatus}
+        addEducationInputDetailToStorage={addEducationInputDetailToStorage}
+        changeModalStatus={changeModalStatus}
+        resetForm={resetForm}
+      >
+        <EducationInputs
+          handleEducationInputDetailChange={handleEducationInputDetailChange}
+        />
+      </Modal>
     </div>
   );
 }

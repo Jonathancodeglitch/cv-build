@@ -1,31 +1,39 @@
-import { Summary } from './Summary.jsx';
-import { useState } from 'react';
-import EducationDetails from './EducationDetails.jsx';
+import { useRef, useState } from 'react';
 import PersonalDetails from './PersonalDetails.jsx';
+import EducationDetails from './EducationDetails.jsx';
 import ExperienceDetails from './ExperienceDetails.jsx';
+import { Summary } from './Summary.jsx';
 import FormButtons from './FormButton.jsx';
+import { v4 as uuidv4 } from 'uuid';
 
 export default function MultiStepForm({
   currentStep,
   incrementStep,
   decrementStep,
 }) {
+  //this state hold a boolean that tell us if the form has been clicked
+  const [isFormNextButtonClicked, setIsFormNextButtonClicked] = useState(false);
+ 
+  function handleChangeForFormButtonClicked() {
+    setIsFormNextButtonClicked(true);
+  }
+
+  //reset form
+  const myForm = useRef(null);
+
+  function resetForm() {
+    myForm.current.reset();
+  }
+
+  //personal details section
   const [personalInputsDetails, setPersonalInputsDetails] = useState({
     fullName: '',
     email: '',
     phoneNumber: '',
   });
 
-  //this state hold a boolean that tell us if the form has been clicked
-  const [isFormNextButtonClicked, setIsFormNextButtonClicked] = useState(false);
-
-  function handleChangeForFormButtonClicked() {
-    setIsFormNextButtonClicked(true);
-  }
-
   //update personal inputs
   function handlePersonalDetailsInputChange(e) {
-    //get targeted input name
     let name = e.target.name;
     setPersonalInputsDetails((prevPersonalInputsDetails) => {
       return {
@@ -35,8 +43,39 @@ export default function MultiStepForm({
     });
   }
 
+  //education details section
+  const [educationInputDetail, setEducationInputDetail] = useState({
+    institutionName: '',
+    fieldOfStudy: '',
+    startDate: '',
+    endDate: '',
+    schoolLocation: '',
+  });
+
+  // add new educationInputDetail to educationDetails array
+  function addEducationInputDetailToStorage() {
+    setEducationDetails((prevEducationDetails) => {
+      return [
+        ...prevEducationDetails,
+        { ...educationInputDetail, id: uuidv4() },
+      ];
+    });
+  }
+
+  //holds all education detials
+  const [educationDetails, setEducationDetails] = useState([]);
+
+  //update EducationInputDetails
+  function handleEducationInputDetailChange(e) {
+    let name = e.target.name;
+    setEducationInputDetail({
+      ...educationInputDetail,
+      [name]: e.target.value,
+    });
+  }
+
   return (
-    <form>
+    <form ref={myForm} className="main_form">
       <div className="form_container">
         <PersonalDetails
           handlePersonalDetailsInputChange={handlePersonalDetailsInputChange}
@@ -44,9 +83,17 @@ export default function MultiStepForm({
           currentStep={currentStep}
           isFormNextButtonClicked={isFormNextButtonClicked}
         />
-        <EducationDetails currentStep={currentStep} />
-        <ExperienceDetails currentStep={currentStep} />
-        <Summary currentStep={currentStep} />
+
+        <EducationDetails
+          resetForm={resetForm}
+          currentStep={currentStep}
+          handleEducationInputDetailChange={handleEducationInputDetailChange}
+          educationInputDetail={educationInputDetail}
+          educationDetails={educationDetails}
+          addEducationInputDetailToStorage={addEducationInputDetailToStorage}
+        />
+        {/*  <ExperienceDetails currentStep={currentStep} /> */}
+        {/*  <Summary currentStep={currentStep} /> */}
       </div>
       <FormButtons
         incrementStep={incrementStep}

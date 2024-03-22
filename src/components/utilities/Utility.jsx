@@ -1,6 +1,4 @@
-import { useRef, useEffect } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faX } from '@fortawesome/free-solid-svg-icons';
 import { faTrash } from '@fortawesome/free-solid-svg-icons';
 
 function Button({ name, type = 'button', handleClick = null }) {
@@ -29,7 +27,7 @@ function InfoContainer({ name, stateDate, endDate }) {
       <div className="info">
         <span className="name">{name}</span>
         <div className="date">
-          <span className="state-date">{stateDate}-</span>
+          <span className="state-date">{stateDate}/</span>
           <span className="end-date">{endDate}</span>
         </div>
       </div>
@@ -67,35 +65,5 @@ function Input({
   );
 }
 
-/* modal popup */
-function Modal({
-  children,
-  title,
-  closeModal,
-  addEducationInputsToEducationArray,
-}) {
-  const myModal = useRef(null);
-  const cancelButtonIcon = <FontAwesomeIcon icon={faX} />;
 
-  useEffect(() => {
-    myModal.current.showModal();
-  },[]);
-
-  function saveUserInputs() {
-    addEducationInputsToEducationArray();
-    closeModal();
-  }
-  return (
-    <dialog ref={myModal} className="modal">
-      <div className="modal_header">
-        <span className="title">{title}</span>
-        <button type="button" onClick={closeModal} className="cancel_btn">
-          {cancelButtonIcon}
-        </button>
-      </div>
-      {children}
-      <Button handleClick={saveUserInputs} name="Save" />
-    </dialog>
-  );
-}
-export { FormHeader, Button, Modal, InfoContainer, Input };
+export { FormHeader, Button, InfoContainer, Input };

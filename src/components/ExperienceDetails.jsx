@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { FormHeader, Button, Modal } from './utilities/Utility';
+import { FormHeader, Button } from './utilities/Utility';
 import { InfoContainer } from './utilities/Utility';
 
 function ExperienceInputs() {
@@ -39,7 +39,7 @@ function ExperienceInputs() {
 }
 
 export default function ExperienceDetails({ currentStep }) {
-  const [modalStatus, setModalStatus] = useState(false);
+  /*  const [modalStatus, setModalStatus] = useState(false);
 
   function openModal() {
     setModalStatus(true);
@@ -48,7 +48,7 @@ export default function ExperienceDetails({ currentStep }) {
   function closeModal() {
     setModalStatus(false);
   }
-
+ */
   return (
     <div style={{ display: currentStep == 3 ? 'block' : 'none' }}>
       <FormHeader
@@ -72,14 +72,18 @@ export default function ExperienceDetails({ currentStep }) {
         endDate="31/12/2023"
       />
 
-      <Button type="button" name="+ Experience" handleClick={openModal} />
+   {/*    <Button type="button" name="+ Experience" handleClick={openModal} /> */}
 
       {/* modal */}
-      {modalStatus && (
+      {
+        {
+          /* modalStatus && (
         <Modal title="Add Experience" handleClick={closeModal}>
           <ExperienceInputs />
         </Modal>
-      )}
+      ) */
+        }
+      }
     </div>
   );
 }
