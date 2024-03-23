@@ -13,16 +13,9 @@ export default function MultiStepForm({
 }) {
   //this state hold a boolean that tell us if the form has been clicked
   const [isFormNextButtonClicked, setIsFormNextButtonClicked] = useState(false);
- 
+
   function handleChangeForFormButtonClicked() {
     setIsFormNextButtonClicked(true);
-  }
-
-  //reset form
-  const myForm = useRef(null);
-
-  function resetForm() {
-    myForm.current.reset();
   }
 
   //personal details section
@@ -75,7 +68,7 @@ export default function MultiStepForm({
   }
 
   return (
-    <form ref={myForm} className="main_form">
+    <div className="main_form">
       <div className="form_container">
         <PersonalDetails
           handlePersonalDetailsInputChange={handlePersonalDetailsInputChange}
@@ -85,7 +78,6 @@ export default function MultiStepForm({
         />
 
         <EducationDetails
-          resetForm={resetForm}
           currentStep={currentStep}
           handleEducationInputDetailChange={handleEducationInputDetailChange}
           educationInputDetail={educationInputDetail}
@@ -102,6 +94,6 @@ export default function MultiStepForm({
         personalInputsDetails={personalInputsDetails}
         handleChangeForFormButtonClicked={handleChangeForFormButtonClicked}
       />
-    </form>
+    </div>
   );
 }

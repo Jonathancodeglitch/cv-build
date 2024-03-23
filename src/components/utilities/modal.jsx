@@ -2,6 +2,8 @@ import { useRef, useEffect } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faX } from '@fortawesome/free-solid-svg-icons';
 import { Button } from './Utility';
+import { useForm } from 'react-hook-form';
+import React from 'react';
 
 export default function Modal({
   children,
@@ -9,11 +11,7 @@ export default function Modal({
   modalStatus,
   changeModalStatus,
   addEducationInputDetailToStorage,
-  resetForm,
 }) {
-  const myModal = useRef(null);
-  const cancelButtonIcon = <FontAwesomeIcon icon={faX} />;
-
   useEffect(() => {
     modalStatus && myModal.current.showModal();
   });
@@ -21,8 +19,29 @@ export default function Modal({
   function closeModal() {
     changeModalStatus();
     myModal.current.close();
-    resetForm();
   }
+
+  //react hook form methods
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm();
+
+  //pass react hook form methods to the children props  by cloning and adding the props
+
+  const formInputs = React.cloneElement(children, {
+    methods: { register, formState: { errors } },
+  });
+
+  // when form is submitted
+  const onSubmit = () => {
+    addEducationInputDetailToStorage();
+    closeModal();
+  };
+
+  const myModal = useRef(null);
+  const cancelButtonIcon = <FontAwesomeIcon icon={faX} />;
 
   return (
     <dialog ref={myModal} className="modal">
@@ -32,15 +51,10 @@ export default function Modal({
           {cancelButtonIcon}
         </button>
       </div>
-      {children}
-
-      <Button
-        name="Save"
-        handleClick={() => {
-          addEducationInputDetailToStorage();
-          closeModal();
-        }}
-      />
+      <form onSubmit={handleSubmit(onSubmit)}>
+        {formInputs}
+        <Button name="Save" type="submit" />
+      </form>
     </dialog>
   );
 }

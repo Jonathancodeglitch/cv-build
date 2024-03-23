@@ -13,13 +13,22 @@ import Modal from './utilities/modal';
 // user should be able to delete details from section
 // user should be able to edit  details
 
-function EducationInputs({ handleEducationInputDetailChange }) {
+//continue the validation from here when you get back genius
+function EducationInputs({ handleEducationInputDetailChange, methods }) {
   return (
     <>
       <label>
         Institution Name
-        <span className="error-msg">required</span>
+        {methods.formState.errors.institutionName && (
+          <span className="error-msg">required</span>
+        )}
         <input
+          style={
+            methods.formState.errors.institutionName && {
+              border: '1px solid red',
+            }
+          }
+          {...methods.register('institutionName', { required: true })}
           onChange={handleEducationInputDetailChange}
           name="institutionName"
           type="text"
@@ -28,8 +37,11 @@ function EducationInputs({ handleEducationInputDetailChange }) {
       </label>
       <label>
         Field Of Study
-        <span className="error-msg">required</span>
+        {methods.formState.errors.fieldOfStudy && (
+          <span className="error-msg">required</span>
+        )}
         <input
+          {...methods.register('fieldOfStudy', { required: true })}
           onChange={handleEducationInputDetailChange}
           name="fieldOfStudy"
           type="text"
@@ -38,8 +50,11 @@ function EducationInputs({ handleEducationInputDetailChange }) {
       </label>
       <label>
         Start Date
-        <span className="error-msg">required</span>
+        {methods.formState.errors.startDate && (
+          <span className="error-msg">required</span>
+        )}
         <input
+          {...methods.register('startDate', { required: true })}
           name="startDate"
           type="date"
           onChange={handleEducationInputDetailChange}
@@ -47,8 +62,11 @@ function EducationInputs({ handleEducationInputDetailChange }) {
       </label>
       <label>
         End Date
-        <span className="error-msg">required</span>
+        {methods.formState.errors.endDate && (
+          <span className="error-msg">required</span>
+        )}
         <input
+          {...methods.register('endDate', { required: true })}
           name="endDate"
           type="date"
           onChange={handleEducationInputDetailChange}
@@ -56,8 +74,11 @@ function EducationInputs({ handleEducationInputDetailChange }) {
       </label>
       <label>
         School Location
-        <span className="error-msg">required</span>
+        {methods.formState.errors.schoolLocation && (
+          <span className="error-msg">required</span>
+        )}
         <input
+          {...methods.register('schoolLocation', { required: true })}
           name="schoolLocation"
           onChange={handleEducationInputDetailChange}
           type="text"
@@ -67,7 +88,6 @@ function EducationInputs({ handleEducationInputDetailChange }) {
     </>
   );
 }
-
 
 // validate the details to make sure dey are correct. if details are not correct prompt user
 //onClick
@@ -81,7 +101,6 @@ export default function EducationDetails({
   handleEducationInputDetailChange,
   addEducationInputDetailToStorage,
   educationDetails,
-  resetForm,
 }) {
   const [modalStatus, setModalStatus] = useState(false);
 
@@ -92,8 +111,6 @@ export default function EducationDetails({
   function changeModalStatus() {
     setModalStatus(false);
   }
-
-  function validateInputs() {}
 
   return (
     <div style={{ display: currentStep == 2 ? 'block' : 'none' }}>
@@ -121,7 +138,6 @@ export default function EducationDetails({
         modalStatus={modalStatus}
         addEducationInputDetailToStorage={addEducationInputDetailToStorage}
         changeModalStatus={changeModalStatus}
-        resetForm={resetForm}
       >
         <EducationInputs
           handleEducationInputDetailChange={handleEducationInputDetailChange}
