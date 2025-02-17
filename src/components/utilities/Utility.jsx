@@ -1,9 +1,9 @@
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faTrash } from '@fortawesome/free-solid-svg-icons';
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faTrash, faPen } from "@fortawesome/free-solid-svg-icons";
 
-function Button({ name, type = 'button', handleClick = null }) {
+function Button({ name, type = "button", onClick = null }) {
   return (
-    <button onClick={handleClick} type={type} className="btn">
+    <button onClick={onClick} type={type} className="btn">
       {name}
     </button>
   );
@@ -14,24 +14,6 @@ function FormHeader({ title, desc }) {
     <div className="form_header">
       <h1>{title}</h1>
       <p>{desc}</p>
-    </div>
-  );
-}
-
-//change this name
-function InfoContainer({ name, stateDate, endDate }) {
-  const icon = <FontAwesomeIcon icon={faTrash} />;
-
-  return (
-    <div className="info_container">
-      <div className="info">
-        <span className="name">{name}</span>
-        <div className="date">
-          <span className="state-date">{stateDate}/</span>
-          <span className="end-date">{endDate}</span>
-        </div>
-      </div>
-      <span className="trash_icon">{icon}</span>
     </div>
   );
 }
@@ -53,7 +35,7 @@ function Input({
 
   //check if input is required and add as attribute to the input
   if (required) {
-    inputAttributes['required'] = 'required';
+    inputAttributes["required"] = "required";
   }
 
   return (
@@ -65,5 +47,38 @@ function Input({
   );
 }
 
+function Item({
+  children,
+  handleEditButtonClick,
+  handleDeleteButtonClick,
+  id,
+}) {
+  const deleteIcon = <FontAwesomeIcon icon={faTrash} />;
+  const editIcon = <FontAwesomeIcon icon={faPen} />;
 
-export { FormHeader, Button, InfoContainer, Input };
+  return (
+    <li className="item_container">
+      <div className="item">{children}</div>
+      {/* icons */}
+      <div className="icon">
+        <span
+          onClick={() => {
+            handleEditButtonClick(id);
+          }}
+          className="trash_icon"
+        >
+          {editIcon}
+        </span>
+        <span
+          onClick={() => {
+            handleDeleteButtonClick(id);
+          }}
+          className="trash_icon"
+        >
+          {deleteIcon}
+        </span>
+      </div>
+    </li>
+  );
+}
+export { FormHeader, Button, Input, Item };

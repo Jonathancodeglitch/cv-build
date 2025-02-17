@@ -1,32 +1,30 @@
-import MultiStepForm from './MultiStepForm';
-import ProgressBar from './ProgressBar';
-import { useState } from 'react';
-
-
+import { useState } from "react";
+import MultiStepForm from "./MultiStepForm";
+import ProgressBar from "./ProgressBar";
 
 export default function CvBuilder() {
-  const [currentStep, setCurrentStep] = useState(2);
+  //State for the current form step
+  const [step, setStep] = useState(1);
 
-  function incrementStep() {
-    const noOfAvaliableSteps = 4;
-    if (currentStep < noOfAvaliableSteps) {
-      setCurrentStep(currentStep + 1);
+  function handleStepIncrement() {
+    if (step < 4) {
+      setStep(step + 1);
     }
   }
 
-  function decrementStep() {
-    if (currentStep > 1) {
-      setCurrentStep(currentStep - 1);
+  function handleStepDecrement() {
+    if (step > 1) {
+      setStep(step - 1);
     }
   }
 
   return (
     <div className="multistep_form">
-      <ProgressBar currentStep={currentStep} />
+      <ProgressBar step={step} />
       <MultiStepForm
-        currentStep={currentStep}
-        incrementStep={incrementStep}
-        decrementStep={decrementStep}
+        handleStepIncrement={handleStepIncrement}
+        handleStepDecrement={handleStepDecrement}
+        step={step}
       />
     </div>
   );

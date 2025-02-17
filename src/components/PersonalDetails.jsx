@@ -1,61 +1,14 @@
-import { FormHeader } from './utilities/Utility';
-import { useState, useRef, useEffect } from 'react';
-import checkIfInputIsEmpty from './utilities/ValidateEmptyInput';
-import validateEmail from './utilities/ValidateEmail';
-import validatePhoneNumber from './utilities/ValidatePhoneNumber';
+import { FormHeader } from "./utilities/Utility";
+import { useState, useRef, useEffect } from "react";
+import checkIfInputIsEmpty from "./utilities/ValidateEmptyInput";
+import validateEmail from "./utilities/ValidateEmail";
+import validatePhoneNumber from "./utilities/ValidatePhoneNumber";
 
-export default function PersonalDetails({
-  currentStep,
-  personalInputsDetails,
-  handlePersonalDetailsInputChange,
-  isFormNextButtonClicked,
-}) {
-  const [fullNameErrorMsg, setFullNameErrorMsg] = useState('');
-  const [emailErrorMsg, setEmailErrorMsg] = useState('');
-  const [phoneNumberErrorMsg, setPhoneNumberErrorMsg] = useState('');
-  const fullNameInputRef = useRef(null);
-  const emailInputRef = useRef(null);
-  const phoneNumberInputRef = useRef(null);
-
-  // validate the personal details inputs and display error
-  useEffect(() => {
-    /*  check if form btn has been clicked so the input dont start
-     validating before the user interacts with the form */
-    if (isFormNextButtonClicked) {
-      //validate for empty value
-      if (!checkIfInputIsEmpty(personalInputsDetails.fullName)) {
-        setFullNameErrorMsg('This field is required');
-        fullNameInputRef.current.style.borderColor = 'var( --Strawberry-red)';
-      } else {
-        setFullNameErrorMsg('');
-        fullNameInputRef.current.style.borderColor = '';
-      }
-      //validate for wrong email format
-      if (!checkIfInputIsEmpty(personalInputsDetails.email)) {
-        setEmailErrorMsg('This field is required');
-        emailInputRef.current.style.borderColor = 'var( --Strawberry-red)';
-      } else if (!validateEmail(personalInputsDetails.email)) {
-        setEmailErrorMsg('Invalid Email Format');
-        emailInputRef.current.style.borderColor = 'var( --Strawberry-red)';
-      } else {
-        setEmailErrorMsg('');
-        emailInputRef.current.style.borderColor = '';
-      }
-      //validate for wrong email format
-      if (!validatePhoneNumber(personalInputsDetails.phoneNumber)) {
-        setPhoneNumberErrorMsg('Invalid PhoneNumber');
-        phoneNumberInputRef.current.style.borderColor =
-          'var( --Strawberry-red)';
-      } else {
-        setPhoneNumberErrorMsg('');
-        phoneNumberInputRef.current.style.borderColor = '';
-      }
-    }
-    //when the  (isFormNextButtonClicked, personalInputsDetails) changes validae the form
-  }, [isFormNextButtonClicked, personalInputsDetails]);
+export default function PersonalDetails({ step,PersonalDetailsInputs,handlePersonalDetailsInputsChange }) {
+ 
 
   return (
-    <div style={{ display: currentStep == 1 ? 'block' : 'none' }}>
+    <div style={{ display: step == 1 ? "block" : "none" }}>
       <FormHeader
         title="Personal info"
         desc="Please provide your name, email address, and phone number."
@@ -63,42 +16,30 @@ export default function PersonalDetails({
       <div className="personal_info_inputs">
         <label>
           Full Name
-          <span className="error-msg">{fullNameErrorMsg}</span>
           <input
+            onChange={handlePersonalDetailsInputsChange}
+            value={PersonalDetailsInputs.fullName}
             name="fullName"
-            ref={fullNameInputRef}
-            onChange={(e) => {
-              handlePersonalDetailsInputChange(e);
-            }}
-            value={personalInputsDetails.fullName}
             type="text"
             placeholder="e.g Jonathan kendrick"
           />
         </label>
         <label>
           Email Address
-          <span className="error-msg">{emailErrorMsg}</span>
           <input
+            onChange={handlePersonalDetailsInputsChange}
+            value={PersonalDetailsInputs.Email}
             name="email"
-            ref={emailInputRef}
-            onChange={(e) => {
-              handlePersonalDetailsInputChange(e);
-            }}
-            value={personalInputsDetails.email}
             type="email"
             placeholder="e.g codeGlitch@gamil.com"
           />
         </label>
         <label>
           Phone Number
-          <span className="error-msg">{phoneNumberErrorMsg}</span>
           <input
+            onChange={handlePersonalDetailsInputsChange}
+            value={PersonalDetailsInputs.phoneNumber}
             name="phoneNumber"
-            ref={phoneNumberInputRef}
-            onChange={(e) => {
-              handlePersonalDetailsInputChange(e);
-            }}
-            value={personalInputsDetails.phoneNumber}
             type="tel"
             placeholder="e.g +234 9012354678"
           />

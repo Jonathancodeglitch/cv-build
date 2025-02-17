@@ -1,148 +1,290 @@
-import { useState } from 'react';
-import { FormHeader, Button, InfoContainer } from './utilities/Utility';
-import Modal from './utilities/modal';
+import { useState, useRef } from "react";
+import { FormHeader, Button } from "./utilities/Utility";
+import Modal from "./utilities/modal";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faTrash, faPen } from "@fortawesome/free-solid-svg-icons";
 
-// education section form
-// when user clicks on the add education button show modal form
-// when the user enter details and submit
-// get user detail
-// validate the detail are valid
-// if the details are valid display the details in the education section
-// send details to the summary section
-// else display the appropriate error message (turn on error message when the user start typing)
-// user should be able to delete details from section
-// user should be able to edit  details
+/* this is responsible for displaying the educational background of the user */
+export default function EducationDetails({
+  step,
+  listOfEducation,
+  handleSetListOfEducation,
+}) {
+  //for unique key value
+  let uuid = self.crypto.randomUUID();
 
-//continue the validation from here when you get back genius
-function EducationInputs({ handleEducationInputDetailChange, methods }) {
-  return (
-    <>
-      <label>
-        Institution Name
-        {methods.formState.errors.institutionName && (
-          <span className="error-msg">required</span>
-        )}
-        <input
-          style={
-            methods.formState.errors.institutionName && {
-              border: '1px solid red',
-            }
+  const [educationInputValues, setEducationalInputValues] = useState({
+    instituteName: "",
+    fieldOfStudy: "",
+    qualifications: "",
+    startDate: "",
+    endDate: "",
+    country: "",
+  });
+
+  //update education inputs state when user is typing..
+  function handleEducationInputValueChange(e) {
+    const inputName = e.currentTarget.name;
+    const inputValue = e.currentTarget.value;
+    setEducationalInputValues({
+      ...educationInputValues,
+      [inputName]: inputValue,
+    });
+  }
+
+  function handleAddingEducationToListOfEducation() {
+    //Check if an Id exist in the education obj
+    if (educationInputValues.id) {
+      //If so, its for editing
+      handleSetListOfEducation(
+        listOfEducation.map((education) => {
+          //Replace the education obj with the edited values if it matches the Id
+          if (education.id === educationInputValues.id) {
+            return educationInputValues;
+          } else {
+            return education;
           }
-          {...methods.register('institutionName', { required: true })}
-          onChange={handleEducationInputDetailChange}
-          name="institutionName"
+        })
+      );
+    } else {
+      //Else its a new entry and should be added to the list of education for display with a unique Id
+      handleSetListOfEducation([
+        ...listOfEducation,
+        { ...educationInputValues, id: uuid },
+      ]);
+    }
+
+    //close modal
+    handleCloseModal();
+  }
+
+  //delete education from education List
+  function handleDeletingEducation(deletedId) {
+    handleSetListOfEducation(
+      listOfEducation.filter((education) => {
+        return education.id !== deletedId;
+      })
+    );
+  }
+
+  //Edit education
+  function handleEditingEducation(editingId) {
+    //open modal with inputs that holds the current value that wants to be changed.
+    handleOpenModal();
+    // Get the education that wants to be edited from the list of education with the [editingId]
+    const [education] = listOfEducation.filter((education) => {
+      return education.id === editingId;
+    });
+    // Update the modal inputs with the current value of the education being edited
+    setEducationalInputValues({
+      id: education.id,
+      instituteName: education.instituteName,
+      fieldOfStudy: education.fieldOfStudy,
+      qualifications: education.qualifications,
+      startDate: education.startDate,
+      endDate: education.endDate,
+      country: education.country,
+    });
+  }
+
+  /* Modal */
+  const modalRef = useRef(null);
+
+  function handleOpenModal() {
+    modalRef.current.showModal();
+  }
+
+  function handleCloseModal() {
+    modalRef.current.close();
+
+    //Clear inputs
+    setEducationalInputValues({
+      instituteName: "",
+      fieldOfStudy: "",
+      qualifications: "",
+      startDate: "",
+      endDate: "",
+      country: "",
+    });
+  }
+
+  return (
+    <div style={{ display: step == 2 ? "block" : "none" }}>
+      <FormHeader
+        title="Education summary"
+        desc="Please provide your educational background."
+      />
+
+      {/*educatonal background infomation */}
+      <ul>
+        {listOfEducation.map((education) => {
+          return (
+            <EducationItemList
+              handleDeletingEducation={handleDeletingEducation}
+              handleEditingEducation={handleEditingEducation}
+              key={education.id}
+              id={education.id}
+              instituteName={education.instituteName}
+              fieldOfStudy={education.fieldOfStudy}
+              country={education.country}
+              qualifications={education.qualifications}
+              stateDate={education.startDate}
+              endDate={education.endDate}
+            />
+          );
+        })}
+      </ul>
+
+      {/*Modal to display inputs to get data on user education */}
+      <Modal
+        handleCloseModal={handleCloseModal}
+        modalRef={modalRef}
+        title="Tell us about your education"
+        description="List universities, colleges or institutions where you studied. If
+            you didn't attend further education, then list your school or any
+            other place of training, particularly if it corresponds to the
+            position sought."
+      >
+        <EducationInputs
+          handleAddingEducationToListOfEducation={
+            handleAddingEducationToListOfEducation
+          }
+          educationInputValues={educationInputValues}
+          handleEducationInputValueChange={handleEducationInputValueChange}
+        />
+      </Modal>
+      <Button type="button" name="+ Education" onClick={handleOpenModal} />
+    </div>
+  );
+}
+
+function EducationInputs({
+  educationInputValues,
+  handleEducationInputValueChange,
+  handleAddingEducationToListOfEducation,
+}) {
+  return (
+    <form>
+      <label>
+        INSTITUTION NAME
+        <input
+          value={educationInputValues.instituteName}
+          onChange={handleEducationInputValueChange}
+          name="instituteName"
           type="text"
           placeholder="University Of Benin"
+          autoFocus
         />
       </label>
       <label>
-        Field Of Study
-        {methods.formState.errors.fieldOfStudy && (
-          <span className="error-msg">required</span>
-        )}
+        FIELD OF STUDY
         <input
-          {...methods.register('fieldOfStudy', { required: true })}
-          onChange={handleEducationInputDetailChange}
+          value={educationInputValues.fieldOfStudy}
+          onChange={handleEducationInputValueChange}
           name="fieldOfStudy"
           type="text"
           placeholder="e.g Computer science"
         />
       </label>
       <label>
-        Start Date
-        {methods.formState.errors.startDate && (
-          <span className="error-msg">required</span>
-        )}
+        QUALIFICATION
         <input
-          {...methods.register('startDate', { required: true })}
-          name="startDate"
-          type="date"
-          onChange={handleEducationInputDetailChange}
+          onChange={handleEducationInputValueChange}
+          value={educationInputValues.qualifications}
+          name="qualifications"
+          type="text"
+          placeholder="e.g Bachelors in Education"
         />
       </label>
+      <div className="date_container">
+        <label>
+          START DATE
+          <input
+            onChange={handleEducationInputValueChange}
+            value={educationInputValues.startDate}
+            name="startDate"
+            type="date"
+          />
+        </label>
+        <label>
+          END DATE
+          <input
+            onChange={handleEducationInputValueChange}
+            value={educationInputValues.endDate}
+            name="endDate"
+            type="date"
+          />
+        </label>
+      </div>
       <label>
-        End Date
-        {methods.formState.errors.endDate && (
-          <span className="error-msg">required</span>
-        )}
+        CITY / COUNTRY
         <input
-          {...methods.register('endDate', { required: true })}
-          name="endDate"
-          type="date"
-          onChange={handleEducationInputDetailChange}
-        />
-      </label>
-      <label>
-        School Location
-        {methods.formState.errors.schoolLocation && (
-          <span className="error-msg">required</span>
-        )}
-        <input
-          {...methods.register('schoolLocation', { required: true })}
-          name="schoolLocation"
-          onChange={handleEducationInputDetailChange}
+          onChange={handleEducationInputValueChange}
+          value={educationInputValues.country}
+          name="country"
           type="text"
           placeholder="e.g Benin City, Edo State Nigeria"
         />
       </label>
-    </>
+      <Button
+        onClick={handleAddingEducationToListOfEducation}
+        name="Save"
+        type="button"
+      />
+    </form>
   );
 }
 
-// validate the details to make sure dey are correct. if details are not correct prompt user
-//onClick
-// get the user details
-// if the value entered is legit ?ignore
-// else display error for that particuler image that is wrong.
-
-/* this is responsible for displaying the educational background of the user */
-export default function EducationDetails({
-  currentStep,
-  handleEducationInputDetailChange,
-  addEducationInputDetailToStorage,
-  educationDetails,
+function EducationItemList({
+  instituteName,
+  fieldOfStudy,
+  country,
+  qualifications,
+  stateDate,
+  endDate,
+  handleDeletingEducation,
+  handleEditingEducation,
+  id,
 }) {
-  const [modalStatus, setModalStatus] = useState(false);
-
-  function openModal() {
-    setModalStatus(true);
-  }
-
-  function changeModalStatus() {
-    setModalStatus(false);
-  }
+  const deleteIcon = <FontAwesomeIcon icon={faTrash} />;
+  const editIcon = <FontAwesomeIcon icon={faPen} />;
 
   return (
-    <div style={{ display: currentStep == 2 ? 'block' : 'none' }}>
-      <FormHeader
-        title="Education"
-        desc="Please provide your educational background."
-      />
-      {/*educatonal background infomation */}
-      {educationDetails.map((educationDetail) => {
-        return (
-          <InfoContainer
-            key={educationDetail.id}
-            name={educationDetail.institutionName}
-            stateDate={educationDetail.startDate}
-            endDate={educationDetail.endDate}
-          />
-        );
-      })}
+    <li className="item_container">
+      <div className="item">
+        <p>
+          <span className="qualification">{qualifications},</span>{" "}
+          <span className="field_of_study">{fieldOfStudy}</span>
+        </p>
+        <p>
+          <span className="institute_name">
+            {instituteName} | {country}{" "}
+          </span>
 
-      <Button type="button" name="+ Education" handleClick={openModal} />
-
-      {/* education modal form pop up*/}
-      <Modal
-        title="Add Education"
-        modalStatus={modalStatus}
-        addEducationInputDetailToStorage={addEducationInputDetailToStorage}
-        changeModalStatus={changeModalStatus}
-      >
-        <EducationInputs
-          handleEducationInputDetailChange={handleEducationInputDetailChange}
-        />
-      </Modal>
-    </div>
+          <span className="date">
+            {stateDate} / {endDate}
+          </span>
+        </p>
+      </div>
+      {/* icons */}
+      <div className="icon">
+        <span
+          onClick={() => {
+            handleEditingEducation(id);
+          }}
+          className="trash_icon"
+        >
+          {editIcon}
+        </span>
+        <span
+          onClick={() => {
+            handleDeletingEducation(id);
+          }}
+          className="trash_icon"
+        >
+          {deleteIcon}
+        </span>
+      </div>
+    </li>
   );
 }

@@ -1,8 +1,13 @@
-import { FormHeader, Button } from './utilities/Utility';
+import { FormHeader, Button } from "./utilities/Utility";
 
-function Summary({ currentStep }) {
+function Summary({
+  step,
+  PersonalDetailsInputs,
+  listOfEducation,
+  listOfExperience,
+}) {
   return (
-    <div style={{ display: currentStep == 4 ? 'block' : 'none' }}>
+    <div style={{ display: step == 4 ? "block" : "none" }}>
       <FormHeader
         title="Finishing Up"
         desc="Double-check everything looks OK before Confirming"
@@ -14,15 +19,15 @@ function Summary({ currentStep }) {
           <div className="personal_details">
             <div className="name">
               <span className="label">Name:</span>
-              Jonathan kendrick
+              {PersonalDetailsInputs.fullName}
             </div>
             <div className="number">
               <span className="label">Phone Number:</span>
-              09076110369
+              {PersonalDetailsInputs.phoneNumber}
             </div>
             <div className="email">
               <span className="label"> Email: </span>
-              email@gmail.com
+              {PersonalDetailsInputs.email}
             </div>
           </div>
           <Button name="Edit" />
@@ -30,25 +35,34 @@ function Summary({ currentStep }) {
         {/* education section */}
         <div className="education_section">
           <h4 className="section_header">Education</h4>
+
           <ol>
-            <li className="education">
-              <div className="date">
-                <span className="label">Date Of Study/Exit: </span>
-                1/2/300 - 2/3/400
-              </div>
-              <div className="school_name">
-                <span className="label">Name Of Institution: </span>
-                University of Benin
-              </div>
-              <div className="degree">
-                <span className="label">Degree: </span>
-                Bachealor In Education
-              </div>
-              <div className="school_location">
-                <span className="label">Location: </span>
-                Benin
-              </div>
-            </li>
+            {listOfEducation.map((education) => {
+              return (
+                <li key={education.id} className="education">
+                  <div className="date">
+                    <span className="label">Date Of Study/Exit: </span>
+                    {`${education.startDate} - ${education.endDate}`}
+                  </div>
+                  <div className="school_name">
+                    <span className="label">Name Of Institution: </span>
+                    {education.instituteName}
+                  </div>
+                  <div className="field_of_study">
+                    <span className="label">Field Of Study: </span>
+                    {education.fieldOfStudy}
+                  </div>
+                  <div className="degree">
+                    <span className="label">Qualification: </span>
+                    {education.qualifications}
+                  </div>
+                  <div className="school_location">
+                    <span className="label">Location: </span>
+                    {education.country}
+                  </div>
+                </li>
+              );
+            })}
           </ol>
 
           <Button name="Edit" />
@@ -57,54 +71,32 @@ function Summary({ currentStep }) {
         <div className="experience_section">
           <h4 className="section_header">Experience</h4>
           <ol>
-            <li className="experience">
-              <div className="date">
-                <span className="label">Date Of Entry/Exit: </span> 2017 -
-                present
-              </div>
-              <div className="company_name">
-                <span className="label">Company Name: </span> Netwalkers.ng
-              </div>
-              <div className="job_Position">
-                <span className="label">Position Title: </span>
-                Frontend Dev
-              </div>
-              <div className="job_location">
-                <span className="label">Location: </span>
-                Benin City, Edo State
-              </div>
-              <div className="job_desc">
-                <span className="label">Job Responsibilities: </span>
-                Designed and prototyped user interface patterns for various
-                clients in various industries, ranging from self-service apps
-                within the telecommunications-sector to mobile games for IOS and
-                Android
-              </div>
-            </li>
-            <li className="experience">
-              <div className="date">
-                <span className="label">Date Of Entry/Exit: </span> 2017 -
-                present
-              </div>
-              <div className="company_name">
-                <span className="label">Company Name: </span> Netwalkers.ng
-              </div>
-              <div className="job_Position">
-                <span className="label">Position Title: </span>
-                Frontend Dev
-              </div>
-              <div className="job_location">
-                <span className="label">Location: </span>
-                Benin City, Edo State
-              </div>
-              <div className="job_desc">
-                <span className="label">Job Responsibilities: </span>
-                Designed and prototyped user interface patterns for various
-                clients in various industries, ranging from self-service apps
-                within the telecommunications-sector to mobile games for IOS and
-                Android
-              </div>
-            </li>
+            {listOfExperience.map((experience) => {
+              return (
+                <li key={experience.id} className="experience">
+                  <div className="date">
+                    <span className="label">Date Of Entry/Exit: </span>
+                    {`${experience.startDate} - ${experience.endDate}`}
+                  </div>
+                  <div className="company_name">
+                    <span className="label">Company Name: </span>{" "}
+                    {experience.employer}
+                  </div>
+                  <div className="job_Position">
+                    <span className="label">Position Title: </span>
+                    {experience.jobTitle}
+                  </div>
+                  <div className="job_location">
+                    <span className="label">Location: </span>
+                    {experience.country}
+                  </div>
+                  <div className="job_desc">
+                    <span className="label">Job Responsibilities: </span>
+                    {experience.jobDescription}
+                  </div>
+                </li>
+              );
+            })}
           </ol>
 
           <Button name="Edit" />

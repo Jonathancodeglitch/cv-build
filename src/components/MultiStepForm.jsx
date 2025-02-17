@@ -1,98 +1,108 @@
-import { useRef, useState } from 'react';
-import PersonalDetails from './PersonalDetails.jsx';
-import EducationDetails from './EducationDetails.jsx';
-import ExperienceDetails from './ExperienceDetails.jsx';
-import { Summary } from './Summary.jsx';
-import FormButtons from './FormButton.jsx';
-import { v4 as uuidv4 } from 'uuid';
+import { useRef, useState } from "react";
+import PersonalDetails from "./PersonalDetails.jsx";
+import EducationDetails from "./EducationDetails.jsx";
+import ExperienceDetails from "./ExperienceDetails.jsx";
+import { Summary } from "./Summary.jsx";
+import { v4 as uuidv4 } from "uuid";
+import FormButtons from "./FormButton.jsx";
 
 export default function MultiStepForm({
-  currentStep,
-  incrementStep,
-  decrementStep,
+  step,
+  handleStepDecrement,
+  handleStepIncrement,
 }) {
-  //this state hold a boolean that tell us if the form has been clicked
-  const [isFormNextButtonClicked, setIsFormNextButtonClicked] = useState(false);
-
-  function handleChangeForFormButtonClicked() {
-    setIsFormNextButtonClicked(true);
-  }
-
-  //personal details section
-  const [personalInputsDetails, setPersonalInputsDetails] = useState({
-    fullName: '',
-    email: '',
-    phoneNumber: '',
+  //personal details
+  const [PersonalDetailsInputs, setPersonalDetailsInputs] = useState({
+    fullName: "jonathan ohwevwo",
+    email: "jnathankendrick697@gmail.com",
+    phoneNumber: "09076110369",
   });
 
-  //update personal inputs
-  function handlePersonalDetailsInputChange(e) {
-    let name = e.target.name;
-    setPersonalInputsDetails((prevPersonalInputsDetails) => {
-      return {
-        ...prevPersonalInputsDetails,
-        [name]: e.target.value,
-      };
+  function handlePersonalDetailsInputsChange(e) {
+    const value = e.currentTarget.value;
+    const name = e.currentTarget.name;
+    setPersonalDetailsInputs({
+      ...PersonalDetailsInputs,
+      [name]: value,
     });
   }
 
-  //education details section
-  const [educationInputDetail, setEducationInputDetail] = useState({
-    institutionName: '',
-    fieldOfStudy: '',
-    startDate: '',
-    endDate: '',
-    schoolLocation: '',
-  });
+  //education details
+  const [listOfEducation, setListOfEducation] = useState([
+    {
+      id: "000-000-000",
+      instituteName: "University Of Benin",
+      fieldOfStudy: "Computer Science",
+      qualifications: "Bachelor Of Science",
+      startDate: "10/2018",
+      endDate: "10/2024",
+      country: "Uyo",
+    },
+    {
+      id: "000-000-001",
+      instituteName: "University Of Benin",
+      fieldOfStudy: "Computer Science",
+      qualifications: "Bachelor Of Science",
+      startDate: "10/2018",
+      endDate: "10/2024",
+      country: "Uyo",
+    },
+  ]);
 
-  // add new educationInputDetail to educationDetails array
-  function addEducationInputDetailToStorage() {
-    setEducationDetails((prevEducationDetails) => {
-      return [
-        ...prevEducationDetails,
-        { ...educationInputDetail, id: uuidv4() },
-      ];
-    });
+  function handleSetListOfEducation(value) {
+    setListOfEducation(value);
   }
 
-  //holds all education detials
-  const [educationDetails, setEducationDetails] = useState([]);
+  /* experience */
+  //Hold state for the list of user experience
+  const [listOfExperience, setListOfExperience] = useState([
+    {
+      id: "000",
+      employer: "Brinicon",
+      jobTitle: "Fullstack developer",
+      startDate: "01/2024",
+      endDate: "01/2025",
+      location: "London",
+      jobDescription: ` Designed and prototyped user interface patterns for various
+                clients in various industries, ranging from self-service apps
+                within the telecommunications-sector to mobile games for IOS and
+                Android`,
+    },
+  ]);
 
-  //update EducationInputDetails
-  function handleEducationInputDetailChange(e) {
-    let name = e.target.name;
-    setEducationInputDetail({
-      ...educationInputDetail,
-      [name]: e.target.value,
-    });
+  function handleSetListOfExperience(value) {
+    setListOfExperience(value);
   }
 
   return (
     <div className="main_form">
       <div className="form_container">
         <PersonalDetails
-          handlePersonalDetailsInputChange={handlePersonalDetailsInputChange}
-          personalInputsDetails={personalInputsDetails}
-          currentStep={currentStep}
-          isFormNextButtonClicked={isFormNextButtonClicked}
+          step={step}
+          handlePersonalDetailsInputsChange={handlePersonalDetailsInputsChange}
+          PersonalDetailsInputs={PersonalDetailsInputs}
         />
-
         <EducationDetails
-          currentStep={currentStep}
-          handleEducationInputDetailChange={handleEducationInputDetailChange}
-          educationInputDetail={educationInputDetail}
-          educationDetails={educationDetails}
-          addEducationInputDetailToStorage={addEducationInputDetailToStorage}
+          step={step}
+          listOfEducation={listOfEducation}
+          handleSetListOfEducation={handleSetListOfEducation}
         />
-        {/*  <ExperienceDetails currentStep={currentStep} /> */}
-        {/*  <Summary currentStep={currentStep} /> */}
+        <ExperienceDetails
+          step={step}
+          handleSetListOfExperience={handleSetListOfExperience}
+          listOfExperience={listOfExperience}
+        />
+        <Summary
+          step={step}
+          PersonalDetailsInputs={PersonalDetailsInputs}
+          listOfEducation={listOfEducation}
+          listOfExperience={listOfExperience}
+        />
       </div>
       <FormButtons
-        incrementStep={incrementStep}
-        decrementStep={decrementStep}
-        currentStep={currentStep}
-        personalInputsDetails={personalInputsDetails}
-        handleChangeForFormButtonClicked={handleChangeForFormButtonClicked}
+        step={step}
+        handleStepDecrement={handleStepDecrement}
+        handleStepIncrement={handleStepIncrement}
       />
     </div>
   );

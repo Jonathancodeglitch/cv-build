@@ -45,32 +45,7 @@ The designs were created to the following widths:
 - Family: [Ubuntu](https://fonts.google.com/specimen/Ubuntu)
 - Weights: 400, 500, 700
 
-plan
-create a a multi step form that that take details from user in other to create a cv for them
-
-create a user interface that has
-
-1. a sidebar that tell the user the current step of the form
-2. the form should have a previous and next button to go forward and backward
-3. a section for the user to add input (phone number , email , name )
-4. a section for th user to input educational background (school name, course study and the date of study and exit) it should have a delete button for individual list
-5. a section for the user to input practical experience (company name, position title, main responsibilities of your jobs, date from and until when you worked for that company) it should have a delete button for individual list
-6. a section to show the user his data entered
-
-// personal section form
-// when the user sumbmit their data
-// get user inputs
-// validate user input to make sure its good
-// if its good save details for summary section use
-// else display error for respective form
-
-// education section form
-// when user clicks on the add education button a modal form pops up
-// when the user enter details and submit
-// get user detail
-// validate the detail are valid
-// if the details are valid display the details in the education section
-// send details to the summary section
-// else display the appropriate error message (turn on error message when the user start typing)
-// delete details from section
-//edit current details
+//experience
+when the modal opens a next button should appear 
+//which opens another modal for the experience details
+// this modal has a save button 
